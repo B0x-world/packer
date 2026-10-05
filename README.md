@@ -20,6 +20,16 @@ be found at https://developer.hashicorp.com/packer/integrations.
 
 The images that Packer creates can easily be turned into [Vagrant](http://www.vagrantup.com) boxes.
 
+## B0x-world Linux distribution workstream
+
+Development is on `release/linux-self-hosted`; `main` remains the protected upstream mirror.
+
+- [To be implemented: grouped requirements and linked issues](TO-BE-IMPLEMENTED.md)
+- [Architecture, lifecycle and responsibility boundaries](contrib/linux-self-hosted/README.md)
+- [Master implementation tracker](https://github.com/B0x-world/packer/issues/1)
+
+The requested integration is tracked implementation work. Existing upstream Packer features are reused or adapted after investigation; the branch does not yet provide a qualified Linux builder/runtime distribution.
+
 ## Quick Start
 
 ### Packer 

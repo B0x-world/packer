@@ -1,6 +1,8 @@
 # Linux self-hosted build distribution and runtime integration
 
-Status: **expanded design**, not an implemented or qualified distribution.
+Status: **implementation requirements consolidated; implementation open**. This is not an implemented or qualified distribution.
+
+The [grouped implementation backlog](../../TO-BE-IMPLEMENTED.md) merges these requirements with the imported Packer capabilities. It records 36 required items, each linked to a GitHub issue with investigation, implementation, documentation and acceptance work. [Master tracker #1](https://github.com/B0x-world/packer/issues/1) tracks delivery.
 Working branch: `B0x-world/packer:release/linux-self-hosted`.
 Updated: 2026-10-05 (Australia/Perth).
 
@@ -17,7 +19,7 @@ Requirement status:
 | Status | Meaning |
 |---|---|
 | Inherited | Accepted Git CI Builder requirement; preserve it for that profile |
-| Extension | Requested capability added to this distribution design; needs contracts, implementation and qualification |
+| Extension | Required implementation work added beyond the inherited baseline; tracked in TO-BE-IMPLEMENTED.md and GitHub issues |
 | Open | A specific detail remains unresolved; do not invent a production default |
 | Implemented | Requires code and relevant execution evidence; this document makes no such claim for the new integration |
 
@@ -52,7 +54,7 @@ Reproductions record source/profile/plugin/image digests, exact platform facts, 
 | Control transport adapters | Structured requests, readiness, correlation, result delivery and cleanup | Arbitrary command execution selected by job-supplied text |
 | Git CI Builder runtime integration | Agent environments, job admission, RAM workspace, session cleanup, image acceptance/promotion and rollback | Packer's in-progress build VM |
 | Profiles and definition libraries | Desired capabilities, bindings, versions, policies and validation requirements | Executable provider logic |
-| CLI, TUI and optional GUI | Editing, inspection and invocation of shared operations | Independent copies of planning, validation or apply logic |
+| CLI, TUI and GUI | Editing, inspection and invocation of shared operations | Independent copies of planning, validation or apply logic |
 | PackerDocs | Semantic reference and source traceability | Runtime policy authority or evidence that a combination works |
 
 One controller owns each VM and mutable artifact at a time. Packer owns its build VM until shutdown and handoff. Runtime or validation adapters subsequently operate separate VMs under explicit ownership records. Image-lifecycle workflows decide whether evidence permits promotion; adapters perform the selected transaction.
@@ -123,7 +125,7 @@ JSON remains authoritative with Draft 2020-12 schemas. A YAML editing projection
 
 The TUI and GUI select components from the common catalogue, show supported targets/versions, explain inherited values, preview dependency and package changes, and show validation status. Saving produces a new configuration revision; it does not immediately modify a running host or image.
 
-CLI, TUI and GUI use the same resolve, diff, plan, apply and validate operations. The inherited `whiptail` TUI is the initial small client; a GUI is an extension over the same contract. Start with local file/subprocess integration; a network service is a separate future decision. Each operation remains available non-interactively for scripts and agents.
+CLI, TUI and GUI use the same resolve, diff, plan, apply and validate operations. The inherited `whiptail` TUI is the initial small client; the required GUI is a tracked extension over the same contract (LSH-008). Start with local file/subprocess integration; a network service is a separate future decision. Each operation remains available non-interactively for scripts and agents.
 
 For the Git CI Builder profile, precedence remains explicit CLI selectors/mode controls, selected config file, system config, then compiled defaults. Environment variables are limited to secret input and documented process-local values. Structured results go to stdout or a declared result path; diagnostics go to stderr/logs.
 
@@ -310,7 +312,7 @@ Treat these as separate logical channels even when a transport adapter implement
 
 A request or configuration is parsed as data and never sourced as shell. Each session uses a random single-session HMAC secret, retained only in protected memory/control material and destroyed at session end. Reject invalid HMAC, stale/replayed requests, mismatched identities and unknown actions. Correlated result persistence is mandatory; failure to persist is operation failure.
 
-The out-of-band every-boot reporter is an explicitly tracked extension already anticipated by Git CI Builder, not existing v1 functionality. Its transport, authentication lifecycle, payload limits, acknowledgement and loss policy require a versioned contract. Until implemented, retain the inherited validation/readiness gates and report the extended capability as unavailable.
+The out-of-band every-boot reporter is required implementation item LSH-020, already anticipated by Git CI Builder but absent from its v1 functionality. Its transport, authentication lifecycle, payload limits, acknowledgement and loss policy require a versioned contract. Until implemented, retain the inherited validation/readiness gates and report the extended capability as unavailable.
 
 Platform substitutions may use different transports, but must prove equivalent authorization, isolation, freshness, cleanup and job-admission behavior. Cloud metadata or a reachable network socket is not automatically a protected secret/control channel.
 
@@ -417,6 +419,8 @@ Keep integration code grouped beneath `contrib/linux-self-hosted/`; the paths be
 Use shared modules and data before creating separate services or generic plugin frameworks. Preserve upstream Packer behavior; a core or SDK modification requires a concrete capability gap and compatibility review.
 
 ## 16. Staged delivery
+
+The stages below sequence the required work. They do not defer or remove requested features from the [implementation register](../../TO-BE-IMPLEMENTED.md#implementation-register). GUI, independent reporting, debugging and OS/platform/cloud substitutions all have open implementation issues. Every item includes investigation of existing/imported code and required documentation changes.
 
 | Stage | Scope | Exit evidence |
 |---|---|---|
